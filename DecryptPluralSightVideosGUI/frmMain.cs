@@ -400,6 +400,7 @@ namespace DecryptPluralSightVideosGUI
                         // Init video and get it from istream
                         IStream iStream;
                         var playingFileStream = new VirtualFileStream(currPath);
+                        
                         playingFileStream.Clone(out iStream);
 
                         string fileName = Path.GetFileName(currPath);

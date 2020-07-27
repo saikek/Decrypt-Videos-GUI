@@ -22,6 +22,7 @@ namespace DecryptPluralSightVideosGUI.Encryption
             this._Cache = Cache;
         }
 
+     
         public void Read(byte[] pv, int cb, IntPtr pcbRead)
         {
             if (this.position < 0L || this.position > this._Cache.Length)

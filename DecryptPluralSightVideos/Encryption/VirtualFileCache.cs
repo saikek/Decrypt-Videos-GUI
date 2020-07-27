@@ -8,7 +8,6 @@ namespace DecryptPluralSightVideos.Encryption
     class VirtualFileCache : IDisposable
     {
         private readonly IPsStream encryptedVideoFile;
-        private Task ReadingTask;
 
         public long Length
         {

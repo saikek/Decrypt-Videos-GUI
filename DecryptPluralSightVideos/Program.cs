@@ -30,13 +30,9 @@ namespace DecryptPluralSightVideos
 
                 if (!string.IsNullOrWhiteSpace(decryptorOptions.InputPath))
                 {
-                    // Time watch
-//                    var watch = System.Diagnostics.Stopwatch.StartNew();
-                    // Decrypt folders with input path and output path
+
                     decryptor.DecryptAllFolders(decryptorOptions.InputPath, decryptorOptions.OutputPath);
-                    //                    watch.Stop();
-                    //                    var elapsedMs = watch.ElapsedMilliseconds;
-                    //                    WriteToConsole("Time: " + elapsedMs);
+                  
                     if (decryptorOptions.RemoveFolderAfterDecryption)
                     {
                         WriteToConsole("Removing course in database after decryption." + Environment.NewLine,

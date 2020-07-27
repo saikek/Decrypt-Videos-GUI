@@ -10,7 +10,7 @@ namespace DecryptPluralSightVideos.Encryption
         public long Length {
             get
             {
-                return this._length;
+                return _length;
             }
         }
         public int BlockSize {
@@ -21,28 +21,28 @@ namespace DecryptPluralSightVideos.Encryption
         }
         public PsStream(string filenamePath)
         {
-            this.fileStream = (Stream)File.Open(filenamePath, FileMode.Open, FileAccess.Read, FileShare.Read);
-            this._length = new FileInfo(filenamePath).Length;
+            fileStream =new FileStream(filenamePath, FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.ReadWrite);
+            _length = new FileInfo(filenamePath).Length;
         }
 
         public void Seek(int offset, SeekOrigin begin)
         {
-            if (this._length <= 0L)
+            if (_length <= 0L)
                 return;
-            this.fileStream.Seek((long)offset, begin);
+            fileStream.Seek((long)offset, begin);
         }
 
         public int Read(byte[] pv, int i, int count)
         {
-            if (this._length <= 0L)
+            if (_length <= 0L)
                 return 0;
-            return this.fileStream.Read(pv, i, count);
+            return fileStream.Read(pv, i, count);
         }
 
         public void Dispose()
         {
-            this._length = 0L;
-            this.fileStream.Dispose();
+            _length = 0L;
+            fileStream.Dispose();
         }
     }
 }

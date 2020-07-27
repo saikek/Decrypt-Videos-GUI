@@ -21,7 +21,9 @@ namespace DecryptPluralSightVideosGUI.Encryption
         }
         public PsStream(string filenamePath)
         {
-            this.fileStream = (Stream)File.Open(filenamePath, FileMode.Open, FileAccess.Read, FileShare.Read);
+            //fileStream = new FileStream(filenamePath, FileMode.OpenOrCreate);
+            this.fileStream = (Stream)File.Open(filenamePath, FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.ReadWrite);
+            
             this._length = new FileInfo(filenamePath).Length;
         }
 
