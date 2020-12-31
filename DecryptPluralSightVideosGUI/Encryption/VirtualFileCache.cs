@@ -34,7 +34,7 @@ namespace DecryptPluralSightVideosGUI.Encryption
                 return;
             this.encryptedVideoFile.Seek(offset, SeekOrigin.Begin);
             int length = this.encryptedVideoFile.Read(pv, 0, count);
-            VideoEncryption.XorBuffer(pv, length, (long)offset);
+            VideoEncryption.DecryptBuffer(pv, length, (long)offset);
             if (!(IntPtr.Zero != pcbRead))
                 return;
             Marshal.WriteIntPtr(pcbRead, new IntPtr(length));
