@@ -1,18 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using DecryptPluralSightVideos.Option;
+using System;
 using System.IO;
-using System.Linq;
-using System.Security.Cryptography;
-using System.Text;
-using System.Threading.Tasks;
-using DecryptPluralSightVideos.Option;
 using static DecryptPluralSightVideos.Option.Utils;
 
 namespace DecryptPluralSightVideos
 {
-    class Program
+    internal class Program
     {
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
             Decryptor decryptor;
             DecryptorOptions decryptorOptions = new DecryptorOptions();
@@ -30,9 +25,8 @@ namespace DecryptPluralSightVideos
 
                 if (!string.IsNullOrWhiteSpace(decryptorOptions.InputPath))
                 {
-
                     decryptor.DecryptAllFolders(decryptorOptions.InputPath, decryptorOptions.OutputPath);
-                  
+
                     if (decryptorOptions.RemoveFolderAfterDecryption)
                     {
                         WriteToConsole("Removing course in database after decryption." + Environment.NewLine,
@@ -60,7 +54,7 @@ namespace DecryptPluralSightVideos
                     "Please use\t/HELP\tflag to know more about other commands or contact with the publisher.");
             }
 
-            End:
+        End:
             WriteToConsole(Environment.NewLine + "Press any key to exit the program...");
             Console.ReadKey();
         }

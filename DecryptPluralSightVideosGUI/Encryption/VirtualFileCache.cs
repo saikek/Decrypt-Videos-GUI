@@ -1,11 +1,10 @@
 ﻿using System;
 using System.IO;
 using System.Runtime.InteropServices;
-using System.Threading.Tasks;
 
 namespace DecryptPluralSightVideosGUI.Encryption
 {
-    class VirtualFileCache : IDisposable
+    internal class VirtualFileCache : IDisposable
     {
         private readonly IPsStream encryptedVideoFile;
         //private Task ReadingTask;

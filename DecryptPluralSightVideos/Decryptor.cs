@@ -1,19 +1,17 @@
-﻿using System;
-using System.Collections;
+﻿using DecryptPluralSightVideos.Encryption;
+using DecryptPluralSightVideos.Model;
+using DecryptPluralSightVideos.Option;
+using System;
 using System.Collections.Generic;
+using System.Data.SQLite;
 using System.IO;
-using System.Linq;
 using System.Runtime.InteropServices.ComTypes;
 using System.Security.Cryptography;
-using System.Data.SQLite;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using DecryptPluralSightVideos.Encryption;
-using DecryptPluralSightVideos.Model;
-using DecryptPluralSightVideos.Option;
-using static System.String;
 using static DecryptPluralSightVideos.Option.Utils;
+using static System.String;
 using SearchOption = System.IO.SearchOption;
 
 namespace DecryptPluralSightVideos
@@ -23,16 +21,16 @@ namespace DecryptPluralSightVideos
         #region Fields
 
         //private VirtualFileStream playingFileStream;
-        List<char> InvalidPathCharacters = new List<char>(), InvalidFileCharacters = new List<char>();
+        private List<char> InvalidPathCharacters = new List<char>(), InvalidFileCharacters = new List<char>();
+
         private SQLiteConnection DatabaseConnection;
         public DecryptorOptions Options = new DecryptorOptions();
         private ConsoleColor color_default;
-        List<Task> TaskList = new List<Task>();
-        SemaphoreSlim Semaphore = new SemaphoreSlim(5);
-        object SemaphoreLock = new object();
+        private List<Task> TaskList = new List<Task>();
+        private SemaphoreSlim Semaphore = new SemaphoreSlim(5);
+        private object SemaphoreLock = new object();
 
-        #endregion
-
+        #endregion Fields
 
         /// <summary>
         /// Constructor Of Decryptor Class. Init invalid characters of path and console colors.
@@ -72,7 +70,6 @@ namespace DecryptPluralSightVideos
 
             return path;
         }
-
 
         /// <summary>
         /// Encrypt two string to become folder name.
@@ -130,7 +127,7 @@ namespace DecryptPluralSightVideos
                     #region Move file
 
                     /*
-                     
+
                     if (Path.GetPathRoot(newCoursePath) != Path.GetPathRoot(coursePath))
                     {
                         Microsoft.VisualBasic.FileIO.FileSystem.MoveDirectory(coursePath, newCoursePath);
@@ -142,11 +139,11 @@ namespace DecryptPluralSightVideos
 
                     */
 
-                    #endregion
+                    #endregion Move file
 
                     // Get list all modules in current course
                     List<Module> listModules = course.Modules;
-                    
+
                     if (listModules.Count > 0)
                     {
                         // Get each module
@@ -166,7 +163,7 @@ namespace DecryptPluralSightVideos
                                     module.ModuleIndex + "");
                             }
 
-							if (Directory.Exists(moduleHashPath))
+                            if (Directory.Exists(moduleHashPath))
                             {
                                 DirectoryInfo moduleInfo = Directory.Exists(newModulePath)
                                     ? new DirectoryInfo(newModulePath)
@@ -193,7 +190,7 @@ namespace DecryptPluralSightVideos
             string courseName = GetFolderName(coursePath);
 
             var cmd = DatabaseConnection.CreateCommand();
-            cmd.CommandText = @"DELETE FROM Course 
+            cmd.CommandText = @"DELETE FROM Course
                                 WHERE Name = @courseName";
             cmd.Parameters.Add(new SQLiteParameter("@courseName", courseName));
 
@@ -208,7 +205,7 @@ namespace DecryptPluralSightVideos
             {
                 if (Directory.Exists(coursePath))
                 {
-                    Directory.Delete(coursePath,true);
+                    Directory.Delete(coursePath, true);
                 }
                 return true;
             }
@@ -225,16 +222,16 @@ namespace DecryptPluralSightVideos
         /// <param name="path">The path to the file or directory</param>
         /// <returns>A path without any illegal characters</returns>
         private string EscapeIllegalCharacters(string path)
-		{
-			// Windows NTFS (macOS is only ':')
-			string illegalCharacters = "/?<>:*|\"";
-			foreach (char c in illegalCharacters)
-			{
-				path = path.Replace(c.ToString(), String.Empty);
-			}
+        {
+            // Windows NTFS (macOS is only ':')
+            string illegalCharacters = "/?<>:*|\"";
+            foreach (char c in illegalCharacters)
+            {
+                path = path.Replace(c.ToString(), String.Empty);
+            }
 
-			return path;
-		}
+            return path;
+        }
 
         /// <summary>
         /// Decrypt all videos in current module folder.
@@ -244,11 +241,10 @@ namespace DecryptPluralSightVideos
         /// <param name="outputPath">Destination of output video</param>
         public void DecryptAllVideos(string folderPath, Module module, string outputPath)
         {
-            
             // Get all clips of this module from database
             List<Clip> listClips = module.Clips;
 
-			if (listClips.Count > 0)
+            if (listClips.Count > 0)
             {
                 foreach (Clip clip in listClips)
                 {
@@ -260,8 +256,6 @@ namespace DecryptPluralSightVideos
                         string newPath = Path.Combine(outputPath,
                             clip.ClipIndex + ". " + clip.ClipTitle + ".mp4");
 
-                        
-
                         // If length too long, rename it
                         if (newPath.Length > 240)
                         {
@@ -271,7 +265,7 @@ namespace DecryptPluralSightVideos
 
                         // Init video and get it from istream
                         IStream iStream;
-						var playingFileStream = new VirtualFileStream(currPath);
+                        var playingFileStream = new VirtualFileStream(currPath);
                         playingFileStream.Clone(out iStream);
 
                         string fileName = Path.GetFileName(currPath);
@@ -304,7 +298,6 @@ namespace DecryptPluralSightVideos
 
                         WriteToConsole($"Decryption File \"{Path.GetFileName(newPath)}\" successfully ", ConsoleColor.Green, true);
                         playingFileStream.Dispose();
-
                     }
                     else
                     {
@@ -438,14 +431,15 @@ namespace DecryptPluralSightVideos
         {
             STATSTG stat;
             curStream.Stat(out stat, 0);
-            IntPtr myPtr = (IntPtr) 0;
-            int strmSize = (int) stat.cbSize;
+            IntPtr myPtr = (IntPtr)0;
+            int strmSize = (int)stat.cbSize;
             byte[] strmInfo = new byte[strmSize];
             curStream.Read(strmInfo, strmSize, myPtr);
             File.WriteAllBytes(newPath, strmInfo);
         }
 
         #region DB
+
         /// <summary>
         /// Get transcript text of specified clip from database.
         /// </summary>
@@ -489,7 +483,7 @@ namespace DecryptPluralSightVideos
 
             var cmd = DatabaseConnection.CreateCommand();
             cmd.CommandText = @"SELECT Id, Name, Title, ClipIndex
-                                FROM Clip 
+                                FROM Clip
                                 WHERE ModuleId = @moduleId";
             cmd.Parameters.Add(new SQLiteParameter("@moduleId", moduleId));
 
@@ -522,7 +516,7 @@ namespace DecryptPluralSightVideos
 
             var cmd = DatabaseConnection.CreateCommand();
             cmd.CommandText = @"SELECT Id, Name, Title, AuthorHandle, ModuleIndex
-                                FROM Module 
+                                FROM Module
                                 WHERE CourseName = @courseName";
             cmd.Parameters.Add(new SQLiteParameter("@courseName", courseName));
 
@@ -557,8 +551,8 @@ namespace DecryptPluralSightVideos
             string courseName = GetFolderName(folderCoursePath, true).Trim().ToLower();
 
             var cmd = DatabaseConnection.CreateCommand();
-            cmd.CommandText = @"SELECT Name, Title, HasTranscript 
-                                FROM Course 
+            cmd.CommandText = @"SELECT Name, Title, HasTranscript
+                                FROM Course
                                 WHERE Name = @courseName";
             cmd.Parameters.Add(new SQLiteParameter("@courseName", courseName));
 
@@ -578,8 +572,7 @@ namespace DecryptPluralSightVideos
             reader.Close();
 
             return course;
-        } 
-        
+        }
 
         /// <summary>
         /// Init database connection.
@@ -605,6 +598,7 @@ namespace DecryptPluralSightVideos
             WriteToConsole("Cannot find the database path.", ConsoleColor.Red);
             return false;
         }
-        #endregion
+
+        #endregion DB
     }
 }

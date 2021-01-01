@@ -37,6 +37,7 @@ namespace DecryptPluralSightVideos.Encryption
                 }
             }
         }
+
         public void Write(byte[] pv, int cb, IntPtr pcbWritten)
         {
             throw new NotImplementedException();
@@ -52,9 +53,11 @@ namespace DecryptPluralSightVideos.Encryption
                     case SeekOrigin.Begin:
                         this.position = dlibMove;
                         break;
+
                     case SeekOrigin.Current:
                         this.position = this.position + dlibMove;
                         break;
+
                     case SeekOrigin.End:
                         this.position = this._Cache.Length + dlibMove;
                         break;

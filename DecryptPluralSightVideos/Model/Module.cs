@@ -10,6 +10,7 @@ namespace DecryptPluralSightVideos.Model
         public string AuthorHandle { get; set; }
         public int ModuleIndex { get; set; }
         public List<Clip> Clips { get; set; }
+
         public Module()
         {
             Clips = new List<Clip>();

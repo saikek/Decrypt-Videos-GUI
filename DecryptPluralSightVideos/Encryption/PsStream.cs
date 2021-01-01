@@ -7,21 +7,25 @@ namespace DecryptPluralSightVideos.Encryption
         private readonly Stream fileStream;
         private long _length;
 
-        public long Length {
+        public long Length
+        {
             get
             {
                 return _length;
             }
         }
-        public int BlockSize {
+
+        public int BlockSize
+        {
             get
             {
                 return 262144;
             }
         }
+
         public PsStream(string filenamePath)
         {
-            fileStream =new FileStream(filenamePath, FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.ReadWrite);
+            fileStream = new FileStream(filenamePath, FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.ReadWrite);
             _length = new FileInfo(filenamePath).Length;
         }
 

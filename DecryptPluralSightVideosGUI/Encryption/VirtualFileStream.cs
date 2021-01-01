@@ -22,7 +22,6 @@ namespace DecryptPluralSightVideosGUI.Encryption
             this._Cache = Cache;
         }
 
-     
         public void Read(byte[] pv, int cb, IntPtr pcbRead)
         {
             if (this.position < 0L || this.position > this._Cache.Length)
@@ -38,6 +37,7 @@ namespace DecryptPluralSightVideosGUI.Encryption
                 }
             }
         }
+
         public void Write(byte[] pv, int cb, IntPtr pcbWritten)
         {
             throw new NotImplementedException();
@@ -53,9 +53,11 @@ namespace DecryptPluralSightVideosGUI.Encryption
                     case SeekOrigin.Begin:
                         this.position = dlibMove;
                         break;
+
                     case SeekOrigin.Current:
                         this.position = this.position + dlibMove;
                         break;
+
                     case SeekOrigin.End:
                         this.position = this._Cache.Length + dlibMove;
                         break;
