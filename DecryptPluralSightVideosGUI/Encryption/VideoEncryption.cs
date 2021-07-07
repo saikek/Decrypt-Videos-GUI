@@ -4,16 +4,15 @@
     {
         private static int currentClipReadCrypto;
         private static string string1V2 = "pluralsight";
-        private static string string2V2 = "#©>Å£Q\x0005¤°";
+        private static string string2V2 = "#©>Å£Q\u0005¤°";
         private const string String1 = "pluralsight";
-        private const string String2 = "\x0006?zY¢\x00B2\x0085\x009FL\x00BEî0Ö.ì\x0017#©>Å£Q\x0005¤°\x00018Þ^\x008Eú\x0019Lqß'\x009D\x0003ßE\x009EM\x0080'x:\0~\x00B9\x0001ÿ 4\x00B3õ\x0003Ã§Ê\x000EAË\x00BC\x0090è\x009Eî~\x008B\x009Aâ\x001B¸UD<\x007FKç*\x001Döæ7H\v\x0015Arý*v÷%Âþ\x00BEä;pü";
-
-        internal static readonly string[][] CryptoKeys = new string[3][]
+        private const string String2 = "\u0006?zY¢\u00B2\u0085\u009FL\u00BEî0Ö.ì\u0017#©>Å£Q\u0005¤°\u00018Þ^\u008Eú\u0019Lqß'\u009D\u0003ßE\u009EM\u0080'x:\0~\u00B9\u0001ÿ 4\u00B3õ\u0003Ã§Ê\u000EAË\u00BC\u0090è\u009Eî~\u008B\u009Aâ\u001B¸UD<\u007FKç*\u001Döæ7H\v\u0015Arý*v÷%Âþ\u00BEä;pü";
+        internal static readonly string[][] CryptoKeys = new string[4][]
         {
       new string[2]
       {
         "pluralsight",
-        "\x0006?zY¢\x00B2\x0085\x009FL\x00BEî0Ö.ì\x0017#©>Å£Q\x0005¤°\x00018Þ^\x008Eú\x0019Lqß'\x009D\x0003ßE\x009EM\x0080'x:\0~\x00B9\x0001ÿ 4\x00B3õ\x0003Ã§Ê\x000EAË\x00BC\x0090è\x009Eî~\x008B\x009Aâ\x001B¸UD<\x007FKç*\x001Döæ7H\v\x0015Arý*v÷%Âþ\x00BEä;pü"
+        "\u0006?zY¢\u00B2\u0085\u009FL\u00BEî0Ö.ì\u0017#©>Å£Q\u0005¤°\u00018Þ^\u008Eú\u0019Lqß'\u009D\u0003ßE\u009EM\u0080'x:\0~\u00B9\u0001ÿ 4\u00B3õ\u0003Ã§Ê\u000EAË\u00BC\u0090è\u009Eî~\u008B\u009Aâ\u001B¸UD<\u007FKç*\u001Döæ7H\v\u0015Arý*v÷%Âþ\u00BEä;pü"
       },
       new string[2]
       {
@@ -23,6 +22,10 @@
       new string[1]
       {
         "os22$!sKHyy9jnGlgHB&vP21CK96tx!l2uhK1K%Fbubree9%o0wT44zwvJ446iAdA%M!@RopKCmOWMOqTt1*BIw@lF68x3itctw"
+      },
+      new string[1]
+      {
+        "XlmDvIlD*^uyZAfCMZ%M0h#o6Z7!4eMZZSBs@dZ12%rMvubV#2iFJLfh8@LSyVWhu37#b%z3MCF3u4244%SRMBO@zIG2YEi!i6y"
       }
         };
 
